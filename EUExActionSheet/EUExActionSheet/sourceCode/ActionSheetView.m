@@ -61,7 +61,7 @@
     //字体大小
     CGFloat textSize = [[[_ConfigDict objectForKey:@"actionSheet_style"] objectForKey:@"textSize"] floatValue];
     //字体颜色
-    NSString *textColor = [[_ConfigDict objectForKey:@"actionSheet_style"] objectForKey:@"textColor"];
+    NSString *textColor = [[_ConfigDict objectForKey:@"actionSheet_style"] objectForKey:@"textNColor"];
     NSString *textHColor=[[_ConfigDict objectForKey:@"actionSheet_style"] objectForKey:@"textHColor"];
     NSString *cancelTextNColor = [[_ConfigDict objectForKey:@"actionSheet_style"]objectForKey:@"cancelTextNColor"];
     NSString *cancelTextHColor = [[_ConfigDict objectForKey:@"actionSheet_style"]objectForKey:@"cancelTextHColor"];
