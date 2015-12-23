@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexActionSheet" version="3.0.6" build="6">
-        <info>6.修复textNColor属性失效的bug</info>
+        uexName="uexActionSheet" version="3.0.7" build="7">
+        <info>7.添加IDE支持</info>
+        <build>6.修复textNColor属性失效的bug</build>
         <build>5.增加颜色边框</build>
         <build>4.修复ActionSheet框和底部间存在间隙</build>
         <build>3.解决uexActionSheet"取消"按钮字体正常与高亮颜色无法设置问题</build>
