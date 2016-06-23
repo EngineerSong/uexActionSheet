@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21563E921D1BC7130027816B /* AppCanKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21563E911D1BC7130027816B /* AppCanKit.framework */; };
 		5A501481188FBDE20022E07C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A501480188FBDE20022E07C /* Foundation.framework */; };
 		5A501488188FBDE20022E07C /* EUExActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A501487188FBDE20022E07C /* EUExActionSheet.m */; };
 		5A5014BC188FBE0B0022E07C /* ActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5014AB188FBE0B0022E07C /* ActionSheetView.m */; };
@@ -26,13 +27,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		21563E911D1BC7130027816B /* AppCanKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AppCanKit.framework; sourceTree = "<group>"; };
 		5A50147D188FBDE20022E07C /* libuexActionSheet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libuexActionSheet.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A501480188FBDE20022E07C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		5A501484188FBDE20022E07C /* EUExActionSheet-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EUExActionSheet-Prefix.pch"; sourceTree = "<group>"; };
 		5A501487188FBDE20022E07C /* EUExActionSheet.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EUExActionSheet.m; sourceTree = "<group>"; };
 		5A5014AA188FBE0B0022E07C /* ActionSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActionSheetView.h; sourceTree = "<group>"; };
 		5A5014AB188FBE0B0022E07C /* ActionSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActionSheetView.m; sourceTree = "<group>"; };
-		5A5014AC188FBE0B0022E07C /* EUExBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBase.h; sourceTree = "<group>"; };
 		5A5014AD188FBE0B0022E07C /* EUExBaseDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUExBaseDefine.h; sourceTree = "<group>"; };
 		5A5014AE188FBE0B0022E07C /* EUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EUtility.h; sourceTree = "<group>"; };
 		5A5014B0188FBE0B0022E07C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -54,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21563E921D1BC7130027816B /* AppCanKit.framework in Frameworks */,
 				5A501481188FBDE20022E07C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,9 +110,9 @@
 		5A5014A9188FBE0B0022E07C /* sourceCode */ = {
 			isa = PBXGroup;
 			children = (
+				21563E911D1BC7130027816B /* AppCanKit.framework */,
 				5A5014AA188FBE0B0022E07C /* ActionSheetView.h */,
 				5A5014AB188FBE0B0022E07C /* ActionSheetView.m */,
-				5A5014AC188FBE0B0022E07C /* EUExBase.h */,
 				5A5014AD188FBE0B0022E07C /* EUExBaseDefine.h */,
 				5A5014AE188FBE0B0022E07C /* EUtility.h */,
 				5A5014AF188FBE0B0022E07C /* JSON */,
@@ -275,6 +277,10 @@
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexActionSheet/";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DSTROOT = /tmp/EUExActionSheet.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EUExActionSheet/sourceCode",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EUExActionSheet/EUExActionSheet-Prefix.pch";
 				LIBRARY_SEARCH_PATHS = "";
@@ -293,6 +299,10 @@
 				CONFIGURATION_BUILD_DIR = "$(SRCROOT)/uexActionSheet/";
 				CONFIGURATION_TEMP_DIR = "$(PROJECT_TEMP_DIR)/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DSTROOT = /tmp/EUExActionSheet.dst;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/EUExActionSheet/sourceCode",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EUExActionSheet/EUExActionSheet-Prefix.pch";
 				LIBRARY_SEARCH_PATHS = "";

@@ -14,14 +14,14 @@
 
 @synthesize actionSheet;
 
-- (id)initWithBrwView:(EBrowserView *)eInBrwView
-{
-    self = [super initWithBrwView:eInBrwView];
-    if (self) {
-        
-    }
-    return self;
-}
+//- (id)initWithBrwView:(EBrowserView *)eInBrwView
+//{
+//    self = [super initWithBrwView:eInBrwView];
+//    if (self) {
+//        
+//    }
+//    return self;
+//}
 
 - (void)open:(NSMutableArray *)inArguments {
     if ([inArguments isKindOfClass:[NSMutableArray class]] && [inArguments count] == 5)
@@ -48,14 +48,15 @@
             //加1是取消按钮，默认在最下边
             m_height = 20*2 + (array.count+1) * (image.size.height/2) + array.count * 10;
             //起始坐标
-            CGRect wndRect = [EUtility brwWndFrame:meBrwView];
+            CGRect wndRect = [UIScreen mainScreen].applicationFrame;//[EUtility brwWndFrame:meBrwView];
             m_y = wndRect.size.height - m_height;
             
             if ([dict isKindOfClass:[NSMutableDictionary class]] && dict != nil) {
                 if (!self.actionSheet) {
                     self.actionSheet = [[[ActionSheetView alloc] initWithFrame:CGRectMake(m_x, m_y + m_height, m_width, m_height) config:dict obj:self] autorelease];
                     self.actionSheet.delegate = self;
-                    [EUtility brwView:meBrwView addSubview:self.actionSheet];
+                    //[EUtility brwView:meBrwView addSubview:self.actionSheet];
+                    [[self.webViewEngine webView] addSubview:self.actionSheet];
                 }
                 //弹出动画
                 [UIView animateWithDuration:0.25 animations:^{
@@ -81,8 +82,9 @@
 
 - (void)goBackActionSheet:(NSString *)dataType {
     if (dataType.length > 0) {
-        NSString *jsString = [NSString stringWithFormat:@"uexActionSheet.onClickItem('%@');",dataType];
-        [self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
+        //NSString *jsString = [NSString stringWithFormat:@"uexActionSheet.onClickItem('%@');",dataType];
+        //[self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
+        [self.webViewEngine callbackWithFunctionKeyPath:@"uexActionSheet.onClickItem" arguments:ACArgsPack(dataType)];
     }
     if (self.actionSheet) {
         [self.actionSheet removeFromSuperview];
