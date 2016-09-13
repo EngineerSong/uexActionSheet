@@ -26,18 +26,17 @@
 - (void)open:(NSMutableArray *)inArguments {
     if ([inArguments isKindOfClass:[NSMutableArray class]] && [inArguments count] == 5)
     {
+        ACArgsUnpack(NSNumber*x,NSNumber*y,NSNumber*width,NSNumber*height,NSDictionary*dict) = inArguments;
         //y和h不处理
-        NSInteger m_x = [[inArguments objectAtIndex:0] intValue];
+        NSInteger m_x = [x intValue];
         NSInteger m_y = 0;
-        NSInteger m_width = [[inArguments objectAtIndex:2] intValue];
+        NSInteger m_width = [width intValue];
         if(m_width == 0){
             m_width = [EUtility screenWidth];
         }
         NSInteger m_height = 0;
-        NSString *configStr = [inArguments objectAtIndex:4];
+       
         
-        if ([configStr isKindOfClass:[NSString class]] && configStr.length > 0) {
-            NSMutableDictionary *dict = [configStr JSONValue];
             //按钮的图片
             NSString *imageStr = [[dict objectForKey:@"actionSheet_style"] objectForKey:@"btnUnSelectBgImg"];
             NSString *imagePath = [self absPath:imageStr];
@@ -53,7 +52,7 @@
             
             if ([dict isKindOfClass:[NSMutableDictionary class]] && dict != nil) {
                 if (!self.actionSheet) {
-                    self.actionSheet = [[[ActionSheetView alloc] initWithFrame:CGRectMake(m_x, m_y + m_height, m_width, m_height) config:dict obj:self] autorelease];
+                    self.actionSheet = [[ActionSheetView alloc] initWithFrame:CGRectMake(m_x, m_y + m_height, m_width, m_height) config:dict obj:self];
                     self.actionSheet.delegate = self;
                     //[EUtility brwView:meBrwView addSubview:self.actionSheet];
                     [[self.webViewEngine webView] addSubview:self.actionSheet];
@@ -64,9 +63,7 @@
                 }];
             }
         }
-    } else {
-        //没有数据
-    }
+    
 }
 
 #pragma mark -ActionSheetViewDelegate
@@ -106,6 +103,6 @@
         [self.actionSheet removeFromSuperview];
         self.actionSheet = nil;
     }
-    [super dealloc];
+    
 }
 @end
