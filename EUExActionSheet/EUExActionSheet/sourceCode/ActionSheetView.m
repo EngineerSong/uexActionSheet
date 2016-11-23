@@ -96,7 +96,7 @@
 
 #pragma mark - initWithFrame
 
-- (id)initWithFrame:(CGRect)frame config:(NSMutableDictionary *)aConfig obj:(EUExActionSheet *)aObject {
+- (id)initWithFrame:(CGRect)frame config:(NSDictionary *)aConfig obj:(EUExActionSheet *)aObject {
     self = [super initWithFrame:frame];
     if (self) {
         self.configDict = [NSMutableDictionary dictionaryWithDictionary:aConfig];
@@ -114,7 +114,6 @@
                     [imageView.layer  setBorderColor:[pub_actionS stringToColor:frameBroundColor].CGColor];
                 }
                 [self addSubview:imageView];
-                [imageView release];
             } else {
                 NSString *frameBgColor = [[_ConfigDict objectForKey:@"actionSheet_style"] objectForKey:@"frameBgColor"];
                 [self setBackgroundColor:[pub_actionS stringToColor:frameBgColor]];
@@ -152,7 +151,7 @@
         self.m_actionSheet = nil;
     }
     
-    [super dealloc];
+    
 }
 
 @end

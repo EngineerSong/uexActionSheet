@@ -22,7 +22,7 @@
 @property (nonatomic, retain) NSMutableArray                    *btnConfigArray;
 @property (nonatomic ,retain) EUExActionSheet                   *m_actionSheet;
 
-- (id)initWithFrame:(CGRect)frame config:(NSMutableDictionary *)aConfig obj:(EUExActionSheet *)aObject;
+- (id)initWithFrame:(CGRect)frame config:(NSDictionary *)aConfig obj:(EUExActionSheet *)aObject;
 
 @end
 
