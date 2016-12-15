@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <uexplugins>
     <plugin
-        uexName="uexActionSheet" version="4.0.0" build="0">
-        <info>0: ActionSheet插件</info>
+        uexName="uexActionSheet" version="4.0.1" build="1">
+        <info>1: 优化参数获取</info>
+        <build>0: ActionSheet插件</build>
     </plugin>
 </uexplugins>
 

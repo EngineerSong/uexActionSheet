@@ -7,102 +7,116 @@
 //
 
 #import "EUExActionSheet.h"
-#import "EUtility.h"
-#import "JSON.h"
+
+
+
+@interface EUExActionSheet()
+@property (nonatomic, strong) uexActionSheetView    *actionSheet;
+@end
 
 @implementation EUExActionSheet
 
 @synthesize actionSheet;
 
-//- (id)initWithBrwView:(EBrowserView *)eInBrwView
-//{
-//    self = [super initWithBrwView:eInBrwView];
-//    if (self) {
-//        
-//    }
-//    return self;
-//}
-
 - (void)open:(NSMutableArray *)inArguments {
-    if ([inArguments isKindOfClass:[NSMutableArray class]] && [inArguments count] == 5)
-    {
-        ACArgsUnpack(NSNumber*x,NSNumber*y,NSNumber*width,NSNumber*height,NSDictionary*dict) = inArguments;
-        //y和h不处理
-        NSInteger m_x = [x intValue];
-        NSInteger m_y = 0;
-        NSInteger m_width = [width intValue];
-        if(m_width == 0){
-            m_width = [EUtility screenWidth];
-        }
-        NSInteger m_height = 0;
-       
-        
-            //按钮的图片
-            NSString *imageStr = [[dict objectForKey:@"actionSheet_style"] objectForKey:@"btnUnSelectBgImg"];
-            NSString *imagePath = [self absPath:imageStr];
-            UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
-            //按钮的数组
-            NSArray *array = [[dict objectForKey:@"actionSheet_style"] objectForKey:@"actionSheetList"];
-            //根据按钮的个数来计算总高度
-            //加1是取消按钮，默认在最下边
-            m_height = 20*2 + (array.count+1) * (image.size.height/2) + array.count * 10;
-            //起始坐标
-            CGRect wndRect = [UIScreen mainScreen].applicationFrame;//[EUtility brwWndFrame:meBrwView];
-            m_y = wndRect.size.height - m_height;
-            
-            if ([dict isKindOfClass:[NSMutableDictionary class]] && dict != nil) {
-                if (!self.actionSheet) {
-                    self.actionSheet = [[ActionSheetView alloc] initWithFrame:CGRectMake(m_x, m_y + m_height, m_width, m_height) config:dict obj:self];
-                    self.actionSheet.delegate = self;
-                    //[EUtility brwView:meBrwView addSubview:self.actionSheet];
-                    [[self.webViewEngine webView] addSubview:self.actionSheet];
-                }
-                //弹出动画
-                [UIView animateWithDuration:0.25 animations:^{
-                    [self.actionSheet setFrame:CGRectMake(m_x, m_y, m_width, m_height)];
-                }];
-            }
-        }
+    
+    ACArgsUnpack(NSNumber *x,__unused NSNumber *y,NSNumber *width,__unused NSNumber *height,NSDictionary *dict) = inArguments;
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    
+    //y和h不处理
+    CGFloat m_x = x.floatValue;
+    CGFloat m_width = width.floatValue;
+    if (m_width == 0) {
+        m_width = screenBounds.size.width;
+    }
+    
+    NSDictionary *info = dictionaryArg(dict[@"actionSheet_style"]);
+    uexActionSheetData *data = [self dataFromJSONInfo:info];
+    
+    UIImage *image = data.unselectedButtonImage;
+    
+
+    
+    
+    CGFloat m_height = 20 * 2 + (data.labels.count + 1) * (image.size.height / 2) + data.labels.count * 10;
+    CGFloat m_y = screenBounds.size.height - m_height;
+
+    data.frame = CGRectMake(m_x, screenBounds.size.height, m_width, m_height);
+
+    if (!self.actionSheet) {
+        self.actionSheet = [[uexActionSheetView alloc] initWithData:data euexObj:self];
+        [[self.webViewEngine webView] addSubview:self.actionSheet];
+    }
+    //弹出动画
+    [UIView animateWithDuration:0.25 animations:^{
+        [self.actionSheet setFrame:CGRectMake(m_x, m_y, m_width, m_height)];
+    }];
+    
+    
     
 }
 
-#pragma mark -ActionSheetViewDelegate
+- (uexActionSheetData *)dataFromJSONInfo:(NSDictionary *)info{
+    uexActionSheetData *data = [uexActionSheetData new];
+    NSArray *sheets = arrayArg(info[@"actionSheetList"]);
+    NSMutableArray<NSString *> *labels = [NSMutableArray array];
+    for (id obj in sheets){
+        if (![obj isKindOfClass:[NSDictionary class]]) {
+            continue;
+        }
+        NSString *label = stringArg([obj objectForKey:@"name"]);
+        if (label) {
+            [labels addObject:label];
+        }
+    }
 
-- (void)transmitInfo:(NSString *)dataType {
+    data.labels = labels;
+    data.backgroundImage = [UIImage imageWithContentsOfFile:[self absPath:stringArg(info[@"frameBgImg"])]];
+    data.borderColor = [UIColor ac_ColorWithHTMLColorString:stringArg(info[@"frameBroundColor"])];
+    data.backgroundColor = [UIColor ac_ColorWithHTMLColorString:stringArg(info[@"frameBgColor"])];
+    data.unselectedButtonImage = [UIImage imageWithContentsOfFile:[self absPath:stringArg(info[@"btnUnSelectBgImg"])]];
+    data.selectedButtonImage = [UIImage imageWithContentsOfFile:[self absPath:stringArg(info[@"btnSelectBgImg"])]];
+    data.unselectedCancelButtonImage = [UIImage imageWithContentsOfFile:[self absPath:stringArg(info[@"cancelBtnUnSelectBgImg"])]];
+    data.selectedCancelButtonImage = [UIImage imageWithContentsOfFile:[self absPath:stringArg(info[@"cancelBtnSelectBgImg"])]];
+    data.textFont = [UIFont systemFontOfSize:numberArg(info[@"textSize"]).integerValue];
+    data.textColor = [UIColor ac_ColorWithHTMLColorString:stringArg(info[@"textNColor"])];
+    data.highlightTextColor = [UIColor ac_ColorWithHTMLColorString:stringArg(info[@"textHColor"])];
+    data.cancelTextColor = [UIColor ac_ColorWithHTMLColorString:stringArg(info[@"cancleTextNColor"])];
+    data.highlightCancelTextColor = [UIColor ac_ColorWithHTMLColorString:stringArg(info[@"cancleTextHColor"])];
+    return data;
+}
+
+
+
+
+
+#pragma mark - ActionSheetViewDelegate
+
+- (void)uexActionSheetView:(uexActionSheetView *)actionSheetView buttonDidClickWithIndex:(NSUInteger)index isCancelButton:(BOOL)isCancelButton{
     [UIView animateWithDuration:0.25 animations:^{
-        [self.actionSheet setFrame:CGRectMake(actionSheet.frame.origin.x, actionSheet.frame.origin.y + actionSheet.frame.size.height, actionSheet.frame.size.width, actionSheet.frame.size.height)];
-        [self performSelector:@selector(goBackActionSheet:) withObject:dataType afterDelay:0.2];
+        CGRect frame = self.actionSheet.frame;
+        frame.origin.y += frame.size.height;
+        [self.actionSheet setFrame:frame];
+    } completion:^(BOOL finished) {
+        if (!isCancelButton) {
+            [self.webViewEngine callbackWithFunctionKeyPath:@"uexActionSheet.onClickItem" arguments:ACArgsPack(@(index))];
+        }
+        [self.actionSheet removeFromSuperview];
+        self.actionSheet = nil;
     }];
 }
 
-#pragma mark - goBack
 
-- (void)goBackActionSheet:(NSString *)dataType {
-    if (dataType.length > 0) {
-        //NSString *jsString = [NSString stringWithFormat:@"uexActionSheet.onClickItem('%@');",dataType];
-        //[self.meBrwView stringByEvaluatingJavaScriptFromString:jsString];
-        [self.webViewEngine callbackWithFunctionKeyPath:@"uexActionSheet.onClickItem" arguments:ACArgsPack(dataType)];
-    }
-    if (self.actionSheet) {
-        [self.actionSheet removeFromSuperview];
-        self.actionSheet = nil;
-    }
-}
 
-#pragma mark - close clean dealloc
 
 - (void)clean {
-    if (self.actionSheet) {
-        [self.actionSheet removeFromSuperview];
-        self.actionSheet = nil;
-    }
+
+    [self.actionSheet removeFromSuperview];
+    self.actionSheet = nil;
+    
 }
 
 - (void)dealloc {
-    if (self.actionSheet) {
-        [self.actionSheet removeFromSuperview];
-        self.actionSheet = nil;
-    }
-    
+    [self clean];
 }
 @end

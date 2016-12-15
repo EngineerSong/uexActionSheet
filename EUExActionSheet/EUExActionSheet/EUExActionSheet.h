@@ -7,11 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ActionSheetView.h"
+#import "uexActionSheetView.h"
 
-@interface EUExActionSheet : EUExBase <ActionSheetViewDelegate>
-{
-    ActionSheetView    *actionSheet;
-}
-@property (nonatomic, retain) ActionSheetView    *actionSheet;
+@interface EUExActionSheet : EUExBase<uexActionSheetViewDelegate>
+
 @end
